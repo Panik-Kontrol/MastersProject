@@ -28,6 +28,7 @@ void    make_frames( short depth );
 void    write_frame( void );
 void    set_alt_props( Choice* curr_choice, Property* alt_props[], short* num_alt_props, Flag flag );
 boolean eval_expr( Expression* expr );
+void    make_citmodel();
 
 
 /* Generate the frames according to what flags are set */
@@ -45,8 +46,9 @@ int generator( Flag flags )
     }
     
     /* make_singles (through write_single) and make_frames increment num_frames */
-    make_singles();
-    make_frames( 0 );
+    //make_singles();
+    //make_frames( 0 );
+    make_citmodel();
     
     return num_frames;
 }
@@ -247,4 +249,33 @@ boolean eval_expr( Expression* expr )
         return a && b;
     else
         return a || b;
+}
+
+void make_citmodel(){
+    short       i, j;
+    short cat_cnt = 0;
+    short choice_cnt;
+    Choice*     curr_choice;
+    printf("%s%i\n","Total cats is ", tot_cats);
+    fprintf( file_ptr, "%i\n", 2);
+    fprintf( file_ptr, "%i\n", tot_cats);
+    printf("%s\n","Got here");
+    for ( i = 0; i < tot_cats; i++ ){
+        choice_cnt = 0;
+        for ( j = 0; j < cats[i] -> num_choices; j++ )
+        {
+            curr_choice = cats[i] -> choices[j];
+           
+            if ( curr_choice -> single != NULL ) continue;
+            else
+            {
+                if ( curr_choice -> if_single != NULL ) continue;
+                    
+                if ( curr_choice -> else_single != NULL ) continue;
+            }
+            choice_cnt++;
+        }
+        if( i == 0 ) fprintf( file_ptr, "%i", choice_cnt );
+        else fprintf( file_ptr, " %i", choice_cnt );
+    }
 }
