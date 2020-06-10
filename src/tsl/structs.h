@@ -21,7 +21,7 @@ typedef struct choice {
     short       num_props,                  /* the number of above Properties */
                 num_if_props,
                 num_else_props;
-    char        *single,
+    const char  *single,
                 *if_single,
                 *else_single;
 } Choice;

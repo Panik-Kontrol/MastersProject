@@ -10,8 +10,8 @@
 
 static Property     FALSE_PROP = { "F", 0 };    /* generic false property used to complete expressions */
 static char         tmp_str[ MAX_TMP_STR ],     /* temp string storage */
-                    tmp_char,                   /* temp char storage */
-                    *error_str = "error",
+                    tmp_char;                   /* temp char storage */
+static const char   *error_str = "error",
                     *single_str = "single";
 
 /* **** debug **** */
@@ -24,13 +24,13 @@ int input_vars_size = sizeof( FALSE_PROP ) + sizeof( tmp_str ) + sizeof( char ) 
 void        parse_file( void );
 void        init_choice( Choice* a_choice );
 void        init_cat( Category* a_cat );
-void        parse_constraint( Choice* curr_choice, char* constraint );
-Property*   parse_property( char* name, size_t length, boolean add_prop );
-Expression* parse_expr( char* start, char* end );
-void        parse_operand( Expression* root, char* start, char* end, boolean operandA );
-char*       first_operator( char* pattern, char* start, char* end );
-char*       close_parens( char* start, char* end );
-void        trim( char** start, char** end );
+void        parse_constraint( Choice* curr_choice, const char* constraint );
+Property*   parse_property( const char* name, size_t length, bool add_prop );
+Expression* parse_expr( const char* start, const char* end );
+void        parse_operand( Expression* root, const char* start, const char* end, bool operandA );
+const char* first_operator( const char* pattern, const char* start, const char* end );
+const char* close_parens( const char* start, const char* end );
+void        trim( const char** start, const char** end );
 
 
 /* Parse the TSL file (in_file, defined in main.c) into categories, choices, etc. */
@@ -78,7 +78,7 @@ void parse_file( void )
                     printf( "adding cat '%s'\n", tmp_str );
                     #endif
         
-                    curr_cat = cats[ tot_cats ] = malloc( sizeof( Category ) );
+                    curr_cat = cats[ tot_cats ] = new Category;
                     
                     init_cat( curr_cat );
                     strncpy( curr_cat -> name, tmp_str, MAX_CAT_STR );
@@ -99,7 +99,7 @@ void parse_file( void )
                     printf( "adding choice '%s'\n", tmp_str );
                     #endif
         
-                    curr_choice = malloc( sizeof( Choice ) );
+                    curr_choice = new Choice;
                     curr_cat -> choices[ curr_cat -> num_choices ] = curr_choice;
                     
                     init_choice( curr_choice );
@@ -150,12 +150,12 @@ void init_cat( Category* a_cat )
 /* Parse the constraint and store the information in the current Choice.
  * Possible constraints are single, error, property, if, and else.
  */
-void parse_constraint( Choice* curr_choice, char* constraint )
+void parse_constraint( Choice* curr_choice, const char* constraint )
 {
     /* we need a local temp string because 'char* constraint' points to
        the global temp string 'tmp_str' */
     char        tmp_cstr[ MAX_TMP_STR ];
-    char*       tmp_single;
+    const char* tmp_single;
     Property*   tmp_prop;
     
     sscanf( constraint, "%s", tmp_cstr );
@@ -176,7 +176,7 @@ void parse_constraint( Choice* curr_choice, char* constraint )
     }
     else if ( strcmp( tmp_cstr, "property" ) == 0 )
     {
-        char*   end = constraint + strlen( constraint );
+        const char*   end = constraint + strlen( constraint );
         short   chars_read;
         
         constraint += 8;  /* move past the word 'property' */
@@ -219,7 +219,7 @@ void parse_constraint( Choice* curr_choice, char* constraint )
  * 'length' is needed because name points to a position within the global
  * temp string, so the property name we want isn't null-terminated.
  */
-Property* parse_property( char* name, size_t length, boolean add_prop )
+Property* parse_property( const char* name, size_t length, bool add_prop )
 {
     char    tmp_name[ MAX_PROP_STR ];
     short   i;
@@ -240,7 +240,7 @@ Property* parse_property( char* name, size_t length, boolean add_prop )
         printf( "adding prop '%s'\n", tmp_name );
         #endif
         
-        props[ tot_props ] = malloc( sizeof( Property ) );
+        props[ tot_props ] = new Property;
         strcpy( props[ tot_props ] -> name, tmp_name );
         props[ tot_props ] -> value = FALSE;
         return props[ tot_props++ ];
@@ -254,11 +254,11 @@ Property* parse_property( char* name, size_t length, boolean add_prop )
 /* Parse the expression in the string bounded by 'start' and 'end'
  * into an Expression (structure) and return its address.
  */
-Expression* parse_expr( char* start, char* end )
+Expression* parse_expr( const char* start, const char* end )
 {
-    char            *first_or, *first_and;
-    char            *endA, *startB;
-    Expression*     root = malloc( sizeof( Expression ) );
+    const char            *first_or, *first_and;
+    const char            *endA, *startB;
+    Expression*     root = new Expression;
     
     trim( &start, &end );
     
@@ -295,13 +295,13 @@ Expression* parse_expr( char* start, char* end )
  * the info in 'root'.  If 'operandA' is true its the left operand, if not
  * its the right operand.
  */
-void parse_operand( Expression* root, char* start, char* end, boolean operandA )
+void parse_operand( Expression* root, const char* start, const char* end, bool operandA )
 {
     Flag            not_flag, expr_flag;
     Property**      prop;
     Expression**    expr;
-    boolean         not = FALSE;
-    char*           old_start;
+    bool            not_bool = FALSE;
+    const char*     old_start;
     
     if ( operandA )
     {
@@ -322,14 +322,14 @@ void parse_operand( Expression* root, char* start, char* end, boolean operandA )
     
     if ( *start == '!' )
     {
-        not = TRUE;
+        not_bool = TRUE;
         old_start = start++;
         trim( &start, &end );
     }
     /* parenthesis matching already checked by parse_expr >> first_operator >> close_parens */
     if ( *start == '(' )
     {
-        if ( not )
+        if ( not_bool )
             root -> flags = root -> flags | not_flag;
         root -> flags = root -> flags | expr_flag;
         *expr = parse_expr( start + 1, end - 1 );  /* recursive call */
@@ -337,14 +337,14 @@ void parse_operand( Expression* root, char* start, char* end, boolean operandA )
     else if ( first_operator( " || ", start, end ) != NULL ||
               first_operator( " && ", start, end ) != NULL )
     {
-        if ( not )
+        if ( not_bool )
             start = old_start;
         root -> flags = root -> flags | expr_flag;
         *expr = parse_expr( start, end );  /* recursive call */
     }
     else
     {
-        if ( not )
+        if ( not_bool )
             root -> flags = root -> flags | not_flag;
         *prop = parse_property( start, (size_t) ( end - start ), FALSE );
     }
@@ -354,9 +354,9 @@ void parse_operand( Expression* root, char* start, char* end, boolean operandA )
 /* Return the position of the first operator (passed in as 'pattern') not
  * contained within parentheses in the string bounded by 'start' and 'end'.
  */
-char* first_operator( char* pattern, char* start, char* end )
+const char* first_operator( const char* pattern, const char* start, const char* end )
 {
-    char *position, *open, *close;
+    const char *position, *open, *close;
     
     close = start;
     
@@ -384,10 +384,10 @@ char* first_operator( char* pattern, char* start, char* end )
  * 'start' points at the opening parenthesis.
  * 'end' points at the end of the string.
  */
-char* close_parens( char* start, char* end )
+const char* close_parens( const char* start, const char* end )
 {
-    char*   position = start + 1;
-    short   stack = 0;
+    const char*   position = start + 1;
+    short         stack = 0;
     
     for( ; position < end; position++ )
     {
@@ -408,7 +408,7 @@ char* close_parens( char* start, char* end )
 
 
 /* Trim whitespace from both ends of a string bounded by '*start' and '*end' */
-void trim( char** start, char** end )
+void trim( const char** start, const char** end )
 {
     for ( ; *start < *end; *start++ )
         if ( !isspace( (int) **start ) )

@@ -13,8 +13,8 @@ Property*   props[ MAX_TOT_PROPS ];     /* array of all Properties */
 short       tot_cats = 0,               /* total Categories */
             tot_props = 0,              /* total Properties */
             max_cat_name = 0;           /* used to format the output to look nice */
-char        *in_file = NULL,            /* name of file for input */
-            *out_file = NULL;           /* name of file for ouput (if any) */
+const char        *in_file = NULL,            /* name of file for input */
+                 *out_file = NULL;           /* name of file for ouput (if any) */
 
 /* **** debug **** */
 #if DEBUG
@@ -23,8 +23,8 @@ int main_vars_size = sizeof( cats ) + sizeof( props ) + sizeof( short ) * 3 + si
 
 
 /* local functions */
-Flag parse_args( int num_args, char* args[] );
-void print_man( char* prog_name );
+Flag parse_args( int num_args, const char* args[] );
+void print_man( const char* prog_name );
 int  cleanup( void );
 int  free_expr( Expression* expr );
 
@@ -41,7 +41,7 @@ int  vars_size( void );
 #endif
 
 
-int main( int argc, char* argv[] )
+int main( int argc, const char* argv[] )
 {
     Flag    flags;           /* program flags */
     int     num_frames;
@@ -113,7 +113,7 @@ int main( int argc, char* argv[] )
 
 
 /* Parse the command line arguments and set flags accordingly */
-Flag parse_args( int num_args, char* args[] )
+Flag parse_args( int num_args, const char* args[] )
 {
     Flag    flags = 0;
     short   i, j;
@@ -154,7 +154,7 @@ Flag parse_args( int num_args, char* args[] )
 
 
 /* Print the tsl manpage */
-void print_man( char* prog_name )
+void print_man( const char* prog_name )
 {
     printf( "\nNAME\n\ttsl - generate test frames from a specification file\n" );
     printf( "\nSYNOPSIS\n\ttsl [ --manpage ] [ -cs ] input_file [ -o output_file ]\n" );

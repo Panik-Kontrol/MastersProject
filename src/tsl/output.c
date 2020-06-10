@@ -8,7 +8,7 @@
 
 static FILE*    file_ptr;       /* the output file */
 static int      num_frames;     /* number of frames generated */
-static boolean  count_only;     /* whether we should write frames or only count them */
+static bool     count_only;     /* whether we should write frames or only count them */
 static short    choice_idx[ MAX_TOT_CATS ];     /* indexes of one choice from each category,
                                                    which all together make up a frame */
 
@@ -22,12 +22,12 @@ int output_vars_size = sizeof( file_ptr ) + sizeof( num_frames ) + sizeof( count
 int     generator( Flag flags );
 
 void    make_singles( void );
-void    write_single( Category* the_cat, Choice* the_choice, char* the_single, char* if_or_else );
+void    write_single( Category* the_cat, Choice* the_choice, const char* the_single, const char* if_or_else );
 
 void    make_frames( short depth );
 void    write_frame( void );
 void    set_alt_props( Choice* curr_choice, Property* alt_props[], short* num_alt_props, Flag flag );
-boolean eval_expr( Expression* expr );
+bool    eval_expr( Expression* expr );
 void    make_citmodel();
 
 
@@ -46,9 +46,9 @@ int generator( Flag flags )
     }
     
     /* make_singles (through write_single) and make_frames increment num_frames */
-    //make_singles();
-    //make_frames( 0 );
-    make_citmodel();
+    make_singles();
+    make_frames( 0 );
+    //make_citmodel();
     
     return num_frames;
 }
@@ -80,7 +80,7 @@ void make_singles( void )
 
 
 /* Write a single-type frame */
-void write_single( Category* the_cat, Choice* the_choice, char* the_single, char* if_or_else )
+void write_single( Category* the_cat, Choice* the_choice, const char* the_single, const char* if_or_else )
 {
     num_frames++;
     if ( count_only )
@@ -107,7 +107,7 @@ void make_frames( short depth )
     Choice*     curr_choice;
     Property*   alt_props[ MAX_CHOICE_PROPS ];  /* locations of properties altered by this call */
     
-    boolean     made_it = FALSE;
+    bool        made_it = FALSE;
     short       num_alt_props,
                 i, j;
     
@@ -229,9 +229,9 @@ void set_alt_props( Choice* curr_choice, Property* alt_props[], short* num_alt_p
 
 
 /* Evaluate an expression represented as a structure */
-boolean eval_expr( Expression* expr )
+bool eval_expr( Expression* expr )
 {
-    boolean a, b;
+    bool a, b;
     
     if ( expr -> flags & EXPR_A )
         a = eval_expr( expr -> exprA );
