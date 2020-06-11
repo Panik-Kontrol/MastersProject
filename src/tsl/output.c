@@ -1,6 +1,7 @@
 
 
 #include <stdio.h>
+#include <sstream>
 
 #include "defines.h"    /* type definitions and macros for flags and MAX limits */
 #include "structs.h"    /* structures used (needs defines.h) */
@@ -29,6 +30,7 @@ void    write_frame( void );
 void    set_alt_props( Choice* curr_choice, Property* alt_props[], short* num_alt_props, Flag flag );
 bool    eval_expr( Expression* expr );
 void    make_citmodel();
+void    make_citmodel_cpp();
 
 
 /* Generate the frames according to what flags are set */
@@ -46,9 +48,10 @@ int generator( Flag flags )
     }
     
     /* make_singles (through write_single) and make_frames increment num_frames */
-    make_singles();
-    make_frames( 0 );
+    //make_singles();
+    //make_frames( 0 );
     //make_citmodel();
+    make_citmodel_cpp();
     
     return num_frames;
 }
@@ -278,4 +281,35 @@ void make_citmodel(){
         if( i == 0 ) fprintf( file_ptr, "%i", choice_cnt );
         else fprintf( file_ptr, " %i", choice_cnt );
     }
+}
+
+void make_citmodel_cpp(){
+    short       i, j;
+    short cat_cnt = 0;
+    short choice_cnt;
+    std::stringstream ss;
+    Choice*     curr_choice;
+    for ( i = 0; i < tot_cats; i++ ){
+        choice_cnt = 0;
+        for ( j = 0; j < cats[i] -> num_choices; j++ )
+        {
+            curr_choice = cats[i] -> choices[j];
+           
+            if ( curr_choice -> single != NULL ) continue;
+            else
+            {
+                if ( curr_choice -> if_single != NULL ) continue;
+                    
+                if ( curr_choice -> else_single != NULL ) continue;
+            }
+            choice_cnt++;
+        }	
+        if( choice_cnt > 1){
+	    cat_cnt++;
+            ss << choice_cnt << " ";
+	}
+    }
+    fprintf( file_ptr, "%i\n", 2 );
+    fprintf( file_ptr, "%i\n", cat_cnt );
+    fprintf( file_ptr, "%s", ss.str().c_str() );
 }
