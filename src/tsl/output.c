@@ -1,7 +1,11 @@
 
 
 #include <stdio.h>
+#include <iostream>
 #include <sstream>
+#include <vector>
+#include <stdlib.h>
+#include <fstream>
 
 #include "defines.h"    /* type definitions and macros for flags and MAX limits */
 #include "structs.h"    /* structures used (needs defines.h) */
@@ -21,6 +25,8 @@ int output_vars_size = sizeof( file_ptr ) + sizeof( num_frames ) + sizeof( count
 
 /* local functions */
 int     generator( Flag flags );
+std::vector<Choice*> choice_vec;
+Container container;
 
 void    make_singles( void );
 void    write_single( Category* the_cat, Choice* the_choice, const char* the_single, const char* if_or_else );
@@ -30,7 +36,7 @@ void    write_frame( void );
 void    set_alt_props( Choice* curr_choice, Property* alt_props[], short* num_alt_props, Flag flag );
 bool    eval_expr( Expression* expr );
 void    make_citmodel();
-void    make_citmodel_cpp();
+void process_output_file(std::string filename);
 
 
 /* Generate the frames according to what flags are set */
@@ -50,8 +56,13 @@ int generator( Flag flags )
     /* make_singles (through write_single) and make_frames increment num_frames */
     //make_singles();
     //make_frames( 0 );
-    //make_citmodel();
-    make_citmodel_cpp();
+    make_citmodel();
+    std::stringstream cmd;
+    cmd << "/home/andrewgraff/casa-install/casa_1.1b/casa-1.1b slides.tsl.tsl -o output.txt";
+
+    system(cmd.str().c_str())
+
+    //process_output_file("output.txt");
     
     return num_frames;
 }
@@ -258,37 +269,9 @@ void make_citmodel(){
     short       i, j;
     short cat_cnt = 0;
     short choice_cnt;
-    Choice*     curr_choice;
-    printf("%s%i\n","Total cats is ", tot_cats);
-    fprintf( file_ptr, "%i\n", 2);
-    fprintf( file_ptr, "%i\n", tot_cats);
-    printf("%s\n","Got here");
-    for ( i = 0; i < tot_cats; i++ ){
-        choice_cnt = 0;
-        for ( j = 0; j < cats[i] -> num_choices; j++ )
-        {
-            curr_choice = cats[i] -> choices[j];
-           
-            if ( curr_choice -> single != NULL ) continue;
-            else
-            {
-                if ( curr_choice -> if_single != NULL ) continue;
-                    
-                if ( curr_choice -> else_single != NULL ) continue;
-            }
-            choice_cnt++;
-        }
-        if( i == 0 ) fprintf( file_ptr, "%i", choice_cnt );
-        else fprintf( file_ptr, " %i", choice_cnt );
-    }
-}
-
-void make_citmodel_cpp(){
-    short       i, j;
-    short cat_cnt = 0;
-    short choice_cnt;
     std::stringstream ss;
     Choice*     curr_choice;
+
     for ( i = 0; i < tot_cats; i++ ){
         choice_cnt = 0;
         for ( j = 0; j < cats[i] -> num_choices; j++ )
@@ -303,8 +286,9 @@ void make_citmodel_cpp(){
                 if ( curr_choice -> else_single != NULL ) continue;
             }
             choice_cnt++;
+            container.choice_vec.push_back(curr_choice);
         }	
-        if( choice_cnt > 1){
+        if( choice_cnt ){
 	    cat_cnt++;
             ss << choice_cnt << " ";
 	}
@@ -312,4 +296,19 @@ void make_citmodel_cpp(){
     fprintf( file_ptr, "%i\n", 2 );
     fprintf( file_ptr, "%i\n", cat_cnt );
     fprintf( file_ptr, "%s", ss.str().c_str() );
+}
+
+void process_output_file(std::string filename){
+    std::ifstream input_file(filename.c_str());
+    std::string str;
+    int num_entries = -1;
+    while(std::getline(input_file, str)){
+        std::stringstream ss(str);
+	if(num_entries == -1){
+ 	    ss >> num_entries;
+        }
+	else{
+	     
+        } 
+    }
 }

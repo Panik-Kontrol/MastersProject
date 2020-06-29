@@ -1,3 +1,7 @@
+#include <vector>
+
+struct choice;
+struct category;
 
 typedef struct property {
     char        name[ MAX_PROP_STR ];
@@ -24,6 +28,7 @@ typedef struct choice {
     const char  *single,
                 *if_single,
                 *else_single;
+    category    *parent;
 } Choice;
 
 typedef struct category {
@@ -31,3 +36,8 @@ typedef struct category {
     Choice*     choices[ MAX_CAT_CHOICES ]; /* location of Choices for this Category */
     short       num_choices;
 } Category;
+
+typedef struct container {
+    int cat_cnt;
+    std::vector<Choice*> choice_vec;
+} Container;

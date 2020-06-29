@@ -101,6 +101,7 @@ void parse_file( void )
         
                     curr_choice = new Choice;
                     curr_cat -> choices[ curr_cat -> num_choices ] = curr_choice;
+		    curr_choice -> parent = curr_cat;
                     
                     init_choice( curr_choice );
                     strncpy( curr_choice -> name, tmp_str, MAX_CHOICE_STR );
