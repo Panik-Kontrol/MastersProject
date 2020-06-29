@@ -57,12 +57,12 @@ int generator( Flag flags )
     //make_singles();
     //make_frames( 0 );
     make_citmodel();
+    
     std::stringstream cmd;
     cmd << "/home/andrewgraff/casa-install/casa_1.1b/casa-1.1b slides.tsl.tsl -o output.txt";
+    system(cmd.str().c_str());
 
-    system(cmd.str().c_str())
-
-    //process_output_file("output.txt");
+    process_output_file("output.txt");
     
     return num_frames;
 }
@@ -296,19 +296,64 @@ void make_citmodel(){
     fprintf( file_ptr, "%i\n", 2 );
     fprintf( file_ptr, "%i\n", cat_cnt );
     fprintf( file_ptr, "%s", ss.str().c_str() );
+    fclose( file_ptr );
+    std::cout << "DEBUG: container vec is: " << std::endl;
+    for(int i = 0; i < container.choice_vec.size(); ++i){
+        std::cout << i << ": " << container.choice_vec.at(i)->name << " " << std::endl;
+    }
 }
 
 void process_output_file(std::string filename){
     std::ifstream input_file(filename.c_str());
     std::string str;
     int num_entries = -1;
+    std::vector< std::vector<int> > frames;
+    int cat = -1;
     while(std::getline(input_file, str)){
         std::stringstream ss(str);
 	if(num_entries == -1){
  	    ss >> num_entries;
+            frames.resize(num_entries);
         }
 	else{
-	     
+            cat++;
+	    int entry = -1;
+	    while(ss >> entry){
+		frames.at(cat).push_back(entry);
+            }
         } 
+    }
+    /*std::cout << "DEBUG: received:" << std::endl;
+    std::cout << "frames generated: " << frames.size() << std::endl;
+    for(int i = 0; i < frames.size(); ++i){
+        std::cout << "   ";
+        for(int j = 0; j < frames.at(i).size(); ++j){
+            std::cout << " " << frames.at(i).at(j);
+        }
+        std::cout << std::endl;
+    }*/
+    std::string final_output = out_file;
+    final_output += ".final";
+    std::ofstream ofs;
+    ofs.open(final_output.c_str(), std::ofstream::out);
+    for(int i = 0; i < frames.size(); ++i){
+        ofs << "Test Case ";
+        ofs.width(10);
+        ofs << std::left << (i + 1);
+        ofs.width(0);
+        ofs << "(Key = ";
+        for(int j = 0; j < frames.at(i).size(); ++j){
+            ofs << frames.at(i).at(j) << ".";
+        }
+        ofs << ")" << std::endl;
+        for(int choice_idx = 0; choice_idx < frames.at(i).size(); ++choice_idx){
+	    Choice *curr_choice = container.choice_vec.at(frames.at(i).at(choice_idx));
+	    ofs << "    ";
+            ofs.width(20);
+            ofs << std::left << curr_choice->parent->name;
+	    ofs.width(0);
+            ofs << ":  " << curr_choice->name << std::endl;
+	}
+        ofs << "\n" << std::endl;
     }
 }
