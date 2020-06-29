@@ -1,0 +1,39 @@
+Parameters:
+        Function:
+           compress.                 [property Comp]
+           decompress.               [property Decomp]
+
+        Info:
+           help.                     [single]
+           license.                  [single]
+           version.                  [single]
+           checking.                 [single]
+
+        Ramblings:
+           none.
+           quiet.
+           verbose.
+
+        Compression:
+          normal.                    [if Comp]
+          fast.                      [if Comp]
+          slow.                      [if Comp]
+          n/a
+
+        Suffix:
+          no-suffix.
+          myGZ.                      [property myGZ]
+
+        Outputs:
+          regular.                   [if !myGZ || !Decomp]
+          stdout.
+
+        Input file name:
+          good file name.
+          no such file.              [error]
+
+        File state:
+          file compr.                [if Decomp]
+          file uncompr.              [if Comp]
+          incorrect format.          [error] 
+
