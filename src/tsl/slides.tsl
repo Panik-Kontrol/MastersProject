@@ -36,4 +36,3 @@ Parameters:
           file compr.                [if Decomp]
           file uncompr.              [if Comp]
           incorrect format.          [error] 
-

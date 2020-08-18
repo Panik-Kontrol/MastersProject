@@ -297,10 +297,10 @@ void make_citmodel(){
     fprintf( file_ptr, "%i\n", cat_cnt );
     fprintf( file_ptr, "%s", ss.str().c_str() );
     fclose( file_ptr );
-    std::cout << "DEBUG: container vec is: " << std::endl;
-    for(int i = 0; i < container.choice_vec.size(); ++i){
-        std::cout << i << ": " << container.choice_vec.at(i)->name << " " << std::endl;
-    }
+    //std::cout << "DEBUG: container vec is: " << std::endl;
+    //for(int i = 0; i < container.choice_vec.size(); ++i){
+    //    std::cout << i << ": " << container.choice_vec.at(i)->name << " " << std::endl;
+    //}
 }
 
 void process_output_file(std::string filename){
