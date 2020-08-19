@@ -77,12 +77,12 @@ Another goal of this project is to require the user to only generate the
   performing the lookup into the Choice* vector.
   
 Rather than output directly all possible test frames, a new function called
-  \emph{make_citmodel()} was written in \emph{tsl/output.c} to write a 
+  \emph{make\_citmodel()} was written in \emph{tsl/output.c} to write a 
   \emph{.citmodel} file used as an input to \emph{casa}. The function
-  \emph{generator(Flag flags)} was also modified to call \emph{make_citmodel()},
+  \emph{generator(Flag flags)} was also modified to call \emph{make\_citmodel()},
   and then make a system call to casa passing in the \emph{.citmodel} file for
   the input. Then, another function created function called
-  \emph{process_output_file(string filename)} processes the file output by
+  \emph{process\_output\_file(string filename)} processes the file output by
   \emph{casa} to generate the test frame final output. Ideally there should be
   no file io required, but this is a rough draft of the final solution.
   
