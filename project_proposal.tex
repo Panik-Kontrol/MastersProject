@@ -11,18 +11,48 @@ Testing Tool To Produce T-Way Adequate Test Frames}
 \graphicspath{ {./images/} }
 
 \newcommand{\eas}[1]{{\color{blue}\sf ({#1})}}
+\newcommand{\ag}[1]{{\color{red}\sf ({#1})}}
 
 \begin{document}
 \maketitle
 \section{Introduction}
-\eas{Start with stating that software has defects and those defects can be costly. That is, first you need to make a point why it is important to have defect/bug free software.} Testing is an important step in the process of creating useful \eas{may be defect-free?} software. Who is
-  going to use or buy your product if it doesn't function according to the  specifications?\eas{Let's focus on defects/bugs and not on the specification. You can rephrase this sentence in terms of testing and move it up so it is before ``Testing is an important ...''}.  For this reason, there are countless hours dedicated to  testing, debugging and maintaining software so that it performs the work expected of it.\eas{Once again, let's focus on testing. You can state that testing is a difficult problem and there may approaches for testing: black-box, white-box} It can be a challenge to create a sustainable, thorough, and comprehensive test suite that is efficient and effective at testing software.\eas{This statement is too general. Instead it should bring up the problem you are trying to address. You can say that various testing technique are complementary in their approaches and it would be beneficial to combine/integrate those components together. }
+\eas{Start with stating that software has defects and those defects can be costly. That is, first you need to make a point why it is important to have defect/bug free software.}
+Software is the beating heart of a lot of technology today, and defects in that software
+  can be costly. Some simply print funny characters to the terminal, while some can bring
+  your production to a halt for hours or even days costing thousands and even millions of
+  dollars. Or perhaps a security breach which exposes your intellectual property which
+  could kill your business altogether. That is why testing is such an important step in
+  the process of creating defect free software. Testing software can be a difficult task
+  depending on the complexity of the software itself, what kind of inputs it takes, and how
+  many different functions it can perform. And there are several different approaches in how
+  to do the actual testing: black-box, white-box, static analysis to name a few. We will be
+  focusing on black-box testing, and more specifically generating test cases that find the
+  greatest amount of defects with a realistically executable number of test cases.
   
   
-\section{Project Statement\eas{Problem Statement and Proposed Solution}}
+  Using several testing methods, or combining them, will help to find the most defects possible.
+  \ag{Not sure how to tie this in. I was thinking maybe just focus on black-box testing and test
+  case generation? Because in the next part, part of the problem statement is that TSL and CASA by themselves
+  aren't good enough for a good selection of test cases}
+  \eas{This statement is too general. Instead it should bring up the problem you are trying to address. 
+  You can say that various testing technique are complementary in their approaches and it would be 
+  beneficial to combine/integrate those components together. }
+  
+  
+\section{Problem Statement and Proposed Solution}
   \eas{Here you can state the main point of what you are proposing -- combining TSL (testing specification language), i.e., the front-end of the category partitioning method with combinatorial interaction testing, which has no useful front-end}
+It is difficult to engineer a set of tests that adequately tests a particular piece of software
+  in an acceptable amount of time. Category partitioning is a useful black-box testing method that
+  helps to test systematic design with test cases. It allows the user to divide
+  the inputs of the software into categories of choices. TSL (testing specification language) is a tool
+  that offers a good front-end for the category partitioning method and a formal descriptive language
+  to specify the categories and choices. In addition, TSL will generate tests cases in an output file.
+  However, it's weakness is that it will generate all possible permutations of program input as test
+  frames, which may not run in a feasible amount of time.
   
-Category partitioning is a useful \eas{blackbox testing} approach  \eas{that helps testers systematic design test case}. In particular it breaks up\eas{partitions, divides} a software system\eas{ or its inputs? into categories} to be tested, and when combined with TSL, can be useful for generating all possible test cases for the given system partition. \eas{you need to have at least 5 more sentences here mainly stating advantages of the category partition level, that TSL is the front-end and allows users to clearly express the input partitions. At the same time you need to tell the main draw-back of this approach -- it generates all test cases, which can be too many even with additional ``coarsening'' of the categories and their choices}
+Combinatorial interaction testing addresses the problem of the brute force approach of running all
+  possible inputs by offering a method for analyzing and selecting a subset of test cases.
+
 
 \eas{Here you can start that combinatorial interaction testing addresses this problem by finding test cases where only certain category choices appear together}
  Similarly, combinatorial interaction testing is useful for defining a subset of tests that satisfy a t-way pairwise interaction using a model and constraints file. \eas{Give three to four more sentence about how  CASA tool does it}\eas{ Then talk about its front end -- in fact its front-end is quite confusing that might introduce errors especially when expressing constraints. You might also state that in general an industry tester would not be able to use such tool --- how many would be able to express a constraint in a conjunctive normal form? Or decode the resulting output file.}
@@ -44,7 +74,7 @@ The \emph{category-partition method} uses a formal test specification language t
   the purposes of this project, we will use a simple example of a zip command.
   The test specification file can be seen in Fig. \ref{fig:tsl_input}.\eas{I have not given much of feedback here since it does need substantial information on
   \begin{itemize}
-  \item The idea of black-box testing -- test selection based on the input space of a progra
+  \item The idea of black-box testing -- test selection based on the input space of a program
   \item Partition of the input space into equivalent classes
   \item Category partition method as a systematic way multi-level way of partition the input space
   \item TSL as a formal language to express those categories and paritions
@@ -55,6 +85,7 @@ The \emph{category-partition method} uses a formal test specification language t
   \end{itemize}
   Also the example on Figure~\ref{fig:tsl_input} is too large - try create something smaller, similar what we use in class -- new link in a browser setting
   }
+  \ag{For next week, I will probably dig up the browser tab example and use that instead. I will have to take new screenshots of the resulting .tsl file, .citmodel file, and .constraints file}
 \begin{figure}[-htb]
 \centering
 \includegraphics[width=3in,keepaspectratio]{tsl_input.png}
@@ -75,28 +106,33 @@ Combinatorial Interaction Testing -
 }
 
 \section{Preliminary Work}
-Some preliminary work has been done on this project in order to determine if
-  the work is sufficient for submission\eas{to determine the feasibility of the approach}. One of the goals of the project is to
-  combine\eas{be more specific - the front-end of one with the algorithm of another} the \emph{tsl} tool with the \emph{casa} tool. Source code was
-  acquired for both tools and some initial study of the code was done. As it
-  turns out, the \emph{tsl} tool is written in basic C. \emph{casa} on the other
-  hand is written in C++. Converting \emph{tsl} to C++ would be beneficial if
-  code is to be combined, so that tool has been updated to compile with the g++
-  compiler.
+Some preliminary work has been done on this project in order to determine the
+  feasibility of the idea to combine the \emph{tsl} and \emph{casa} tools into 
+  a single, easy to use tool. A goal of the project is to simplify and reduce the
+  effort a user needs to put in to use the new tool. Source code was acquired for
+  both tools and some initial analysis of the code was done in order to understand
+  how they work and where some work may be needed to combine them. As it
+  turns out, the \emph{tsl} tool is written in basic C and \emph{casa} is written
+  in C++. Converting \emph{tsl} to C++ would be beneficial for combining the 
+  code bases into a single program. So \emph{tsl} was updated to support compilation
+  with the g++ compiler.
 
+As part of the simplification of the tool, only the category partition test specifications
+  should need to be created by the user as a \emph{.tsl} file. The tool will do the rest to
+  generate the adequate coverage set of test frames. Since \emph{casa} takes as input a 
+  \emph{.citmodel} file, this preliminary version of \emph{tsl} generates one based on the
+  specification file passed in. The generation of the \emph{.constraints} file will be created
+  at a later time as part of the proposed work. In order to create the \emph{.citmodel}, we need
+  to be able to keep track of the parsed information from the specifications file.
   
-Another goal of this project is to require the user to only generate the
-  category partition test specifications, and the adequate coverage set of test
-  frames should be generated.  Excluding the constraints file that would be used 
-  by \emph{casa} to determine which options can be called with other options, a
-  preliminary working version of \emph{tsl} was coded to output the 
-  combinatorial interaction testing model required to generate a set the set of
-  test frames that would be generated with no constraints.\eas{That is a long sentence, could you break it into tow or three?} 
+\ag{Reworded everything above in Preliminary Work with your suggestions. Still working on this part below. Having difficulty re-arranging the ideas.}    
+\eas{I think below you have all the information written well. However it would be better if instead of starting a paragraph
+  talking about \em{what you've done} and then \em{why you did it}, you switch the order. State first what needs to be done:
+  (1) establishing the map between categories and their choices and casa input values;
+  (2) invoking casa on the translated input;
+  (3) interpreting casa's output to produce frames}
   
-    
-  \eas{I think below you have all the information written well. However it would be better if instead of starting a paragraph talking about \em{what you've done} and then \em{why you did it}, you switch the order. State first what needs to be done: (1) establishing the map between categories and their choices and casa input values; (2) invoking casa on the translated input; (3) interpreting casa's output to produce frames}
-  
-  In order to achieve this, a new struct was added to \emph{tsl/structs.h} called \emph{container} that
+In order to achieve this, a new struct was added to \emph{tsl/structs.h} called \emph{container} that
   keeps track of the list of non-single Choices as a vector of Choice struct
   pointers.\eas{Make sure you explain in your background section what is Choice - by the way why is it capitalized?} This vector is used to lookup the choices and categories later for
   printing the test frames. In addition, a \emph{parent} pointer was added to
@@ -111,7 +147,8 @@ Rather than output directly all possible test frames, a new function called
   the input. Then, another function created  called
   \emph{process\_output\_file(string filename)} processes the file output by
   \emph{casa} to generate the test frame final output. Ideally there should be
-  no file io required, but this is a rough\eas{preliminary} draft of the final solution \eas{and will be addressed in the final version of the project}.
+  no file io required, but this is a preliminary draft of the final solution
+  and will be addressed in the final version of the project.
   
   \section{Proposed Remaining Work}
 Arguably the bulk of the work will be to translate the \emph{properties} and 
