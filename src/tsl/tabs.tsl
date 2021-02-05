@@ -1,0 +1,26 @@
+Parameters:
+	Link:
+		new window.						
+		new tab recent window.					
+		most recent tab window.
+		
+	NewWindowOption:
+		force links that open new windows to open in.		[property LinkOption]
+		don't force links that open new windows to open in.	
+
+	NewWindowOptionOption:
+		the same tab window as the link.			[if LinkOption]
+		a new tab.						[if LinkOption]
+		n/a.
+
+	Hide:
+		hide when 1 tab.
+		don't hide.
+
+	SelectTab:
+		select new tab opened from link.
+		don't select new tab opened from link.
+
+	Warn:
+		warn when closing multiple windows.
+		don't warn when closing multiple windows.
