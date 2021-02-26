@@ -1,8 +1,8 @@
 Parameters:
 	Link:
 		new window.						
-		new tab recent window.					
-		most recent tab window.
+		new tab.					
+		current tab.
 		
 	NewWindowOption:
 		force links that open new windows to open in.		[property LinkOption]

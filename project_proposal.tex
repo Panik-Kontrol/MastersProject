@@ -12,11 +12,12 @@ Testing Tool To Produce T-Way Adequate Test Frames}
 
 \newcommand{\eas}[1]{{\color{blue}\sf ({#1})}}
 \newcommand{\ag}[1]{{\color{red}\sf ({#1})}}
-
+\renewcommand{\topfraction}{.9}
+\renewcommand{\bottomfraction}{.9}
+\renewcommand{\textfraction}{.1}
 \begin{document}
 \maketitle
 \section{Introduction}
-\eas{Start with stating that software has defects and those defects can be costly. That is, first you need to make a point why it is important to have defect/bug free software.}
 Software is the beating heart of a lot of technology today, and defects in that software
   can be costly. Some simply print funny characters to the terminal, while some can bring
   your production to a halt for hours or even days costing thousands and even millions of
@@ -29,29 +30,20 @@ Software is the beating heart of a lot of technology today, and defects in that 
   focusing on black-box testing, and more specifically generating test cases that find the
   greatest amount of defects with a realistically executable number of test cases.
   
-  
-  Using several testing methods, or combining them, will help to find the most defects possible.
-  \ag{Not sure how to tie this in. I was thinking maybe just focus on black-box testing and test
-  case generation? Because in the next part, part of the problem statement is that TSL and CASA by themselves
-  aren't good enough for a good selection of test cases}
-  \eas{This statement is too general. Instead it should bring up the problem you are trying to address. 
-  You can say that various testing technique are complementary in their approaches and it would be 
-  beneficial to combine/integrate those components together. }
-  
-  
 \section{Problem Statement and Proposed Solution}
   \eas{Here you can state the main point of what you are proposing -- combining TSL (testing specification language), i.e., the front-end of the category partitioning method with combinatorial interaction testing, which has no useful front-end}
 It is difficult to engineer a set of tests that adequately tests a particular piece of software
   in an acceptable amount of time. Category partitioning is a useful black-box testing method that
   helps to test systematic design with test cases. It allows the user to divide
   the inputs of the software into categories of choices. TSL (testing specification language) is a tool
-  that offers a good front-end for the category partitioning method and a formal descriptive language
-  to specify the categories and choices. In addition, TSL will generate tests cases in an output file.
-  However, it's weakness is that it will generate all possible permutations of program input as test
-  frames, which may not run in a feasible amount of time.
+  that offers a good front-end for the category partitioning method with a formal descriptive language
+  to specify how the program works using categories and choices. In addition, TSL will generate tests
+  cases in an output file. However, it's weakness is that it will generate all possible permutations of
+  the categories and choices as test frames, which may not run in a feasible amount of time.
   
 Combinatorial interaction testing addresses the problem of the brute force approach of running all
-  possible inputs by offering a method for analyzing and selecting a subset of test cases.
+  possible inputs by offering a method for analyzing and selecting a subset of test cases. The tool
+  we will use for this step will be 
 
 
 \eas{Here you can start that combinatorial interaction testing addresses this problem by finding test cases where only certain category choices appear together}
@@ -71,8 +63,43 @@ The \emph{category-partition method} uses a formal test specification language t
   create an executable software test. So how do you generate the formal test 
   specifications? Depending on the size of the software system to test, the 
   engineer may need to break the program up into smaller testable blocks. For 
-  the purposes of this project, we will use a simple example of a zip command.
-  The test specification file can be seen in Fig. \ref{fig:tsl_input}.\eas{I have not given much of feedback here since it does need substantial information on
+  the purposes of this project, we will use a simple example of a browser's 
+  settings for how to treat tabs.
+\begin{figure}[htb]
+\centering
+\includegraphics[width=2.3in,keepaspectratio]{images/tabs_example.png}
+\caption{Sample of software feature to test tabs}
+\label{fig:tabs_example}
+\end{figure}
+
+As part of the process to translate this feature into the formal language of \emph{tsl},
+  we need to follow a specific format for our test specification file. It specifies
+  \emph{categories}, \emph{choices}, \emph{properties}, and \emph{selectors} where 
+  \emph{selectors} are boolean expressions. The format of the file looks like this:
+\begin{figure}[htb]
+\centering
+\includegraphics[width=3in,keepaspectratio]{images/tsl_format.png}
+\caption{Format for tsl input file}
+\label{fig:tsl_format}
+\end{figure}
+
+Back to our example, we need to choose \emph{categories} and \emph{choices} within those
+  \emph{categories}. For example, one \emph{category} could be 'Link', and the choices
+  associated with 'Link' are 'new window', 'new tab', and 'current tab' pulled from the
+  'Open links from other applications in:' portion of the settings. We do this for all
+  the available selections in this browsers 'Tabs' options and end up with the this for
+  and input to \emph{tsl}
+\begin{figure}[htb]
+\centering
+\includegraphics[width=4in,keepaspectratio]{images/tsl_input_final.png}
+\caption{Example of first category of tabs example}
+\label{fig:tsl_input_final}
+\end{figure}
+
+  
+  
+\ag{Still building on this. I've inserted the tsl portion above. 2/26/2021}
+\eas{I have not given much of feedback here since it does need substantial information on
   \begin{itemize}
   \item The idea of black-box testing -- test selection based on the input space of a program
   \item Partition of the input space into equivalent classes
@@ -84,15 +111,7 @@ The \emph{category-partition method} uses a formal test specification language t
   \item The tool description - lines of code and such
   \end{itemize}
   Also the example on Figure~\ref{fig:tsl_input} is too large - try create something smaller, similar what we use in class -- new link in a browser setting
-  }
-  \ag{For next week, I will probably dig up the browser tab example and use that instead. I will have to take new screenshots of the resulting .tsl file, .citmodel file, and .constraints file}
-\begin{figure}[-htb]
-\centering
-\includegraphics[width=3in,keepaspectratio]{tsl_input.png}
-\caption{Category partition input format}
-\label{fig:tsl_input}
-\end{figure}
-
+}
 
 
 Combinatorial Interaction Testing -
@@ -125,7 +144,7 @@ As part of the simplification of the tool, only the category partition test spec
   at a later time as part of the proposed work. In order to create the \emph{.citmodel}, we need
   to be able to keep track of the parsed information from the specifications file.
   
-\ag{Reworded everything above in Preliminary Work with your suggestions. Still working on this part below. Having difficulty re-arranging the ideas.}    
+\ag{I'm still working on the portion below 2/26/2021}    
 \eas{I think below you have all the information written well. However it would be better if instead of starting a paragraph
   talking about \em{what you've done} and then \em{why you did it}, you switch the order. State first what needs to be done:
   (1) establishing the map between categories and their choices and casa input values;
