@@ -59,7 +59,7 @@ int generator( Flag flags )
     make_citmodel();
     
     std::stringstream cmd;
-    cmd << "/home/andrewgraff/casa-install/casa_1.1b/casa-1.1b slides.tsl.tsl -o output.txt";
+    cmd << "/home/andrewgraff/casa-install/casa_1.1b/casa-1.1b tabs.tsl.tsl -o output.txt";
     system(cmd.str().c_str());
 
     process_output_file("output.txt");
