@@ -138,8 +138,13 @@ The \emph{tsl} tool consists of 12 files and 1125 lines of code.
 The \emph{.citmodel} input file has the following format. The first line of the file
   specifies the strength of the T-way pairs to find. The second line specifies the number
   of \emph{categories} we have broken the program into. And the third line specifies how
-  many \emph{choices} within the categories we have start from the first \emph{category} to
-  the last. \ref{fig:casa_citmodel_input}
+  many \emph{choices} within the categories we have starting from the first \emph{category} to
+  the last. See figure \ref{fig:casa_citmodel_input}. Next we look at the \emph{.constraints}
+  file and the contraints are written as a conjunction of disjunctions. The first line in this
+  file denotes how many disjunctive clauses (constraints) will be defined for this model. Each
+  conjunctive clause consists of a pair of lines, the first of which specifies how many terms
+  will be in the disjunctive clause. The second line of the pair is the disjunctive clause in
+  conjunctive normal form.  
 The \emph{casa} tool consists of 87 files with 9139 lines of code.
   
 \begin{figure}[htb]
