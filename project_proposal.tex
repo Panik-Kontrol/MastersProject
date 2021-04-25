@@ -63,7 +63,7 @@ The \emph{category-partition method} uses a formal test specification language t
   specifications? Depending on the size of the software system to test, the 
   engineer may need to break the program up into smaller testable blocks. For 
   the purposes of this project, we will use a simple example of a browser's 
-  settings for how to treat tabs.
+  settings for how to treat tabs. See figure \ref{fig:tabs_example}.
 \begin{figure}[htb]
 \centering
 \includegraphics[width=2.3in,keepaspectratio]{images/tabs_example.png}
@@ -90,11 +90,11 @@ Back to our example, we need to choose \emph{categories} and \emph{choices} with
   \emph{properties}, which are useful for defining constraints that should be imposed on
   the valid \emph{choices} a program may accept. And then the \emph{selectors} are defined
   as prepositional logic statements that select the option that is associated with the 
-  \emph{property} that is referenced in teh \emph{selector} statement. See figure \ref{fig:tsl_input_final}.
+  \emph{property} that is referenced in the \emph{selector} statement. See figure \ref{fig:tsl_input_final}.
 \begin{figure}[htb]
 \centering
 \includegraphics[width=4in,keepaspectratio]{images/tsl_input_final.png}
-\caption{Example of first category of tabs example}
+\caption{An input file for \emph{tsl} using our 'Tabs' example.}
 \label{fig:tsl_input_final}
 \end{figure}
 
@@ -145,14 +145,14 @@ Finally, we look at the output format from the \emph{casa} program. The first li
 \begin{figure}[htb]
 \centering
 \includegraphics[width=1in,keepaspectratio]{images/casa_citmodel_input.png}
-\caption{Example of CASA .citmodel input file}
+\caption{Example of \emph{casa} .citmodel input file}
 \label{fig:casa_citmodel_input}
 \end{figure}
 
 \begin{figure}[htb]
 \centering
 \includegraphics[width=1in,keepaspectratio]{images/casa_constraints.png}
-\caption{Constraints file for our 'Tabs' example. If option 3 is not chosen, then neither will 5. Similarly, if option 3 is not chosen, neither will 6.}
+\caption{Constraints file for our 'Tabs' example with 2 rules. If option 3 is chosen, then choose 5 or 6. If option 4 is chosen, then choose 7.}
 \label{fig:casa_constraints}
 \end{figure}
 
