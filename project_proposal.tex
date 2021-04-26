@@ -31,26 +31,33 @@ Software is the beating heart of a lot of technology today, and defects in that 
   greatest amount of defects with a realistically executable number of test cases.
   
 \section{Problem Statement and Proposed Solution}
-  \eas{Here you can state the main point of what you are proposing -- combining TSL (testing specification language), i.e., the front-end of the category partitioning method with combinatorial interaction testing, which has no useful front-end}
 It is difficult to engineer a set of tests that adequately tests a particular piece of software
   in an acceptable amount of time. Category partitioning is a useful black-box testing method that
   helps to test systematic design with test cases. It allows the user to divide
-  the inputs of the software into categories of choices. TSL (testing specification language) is a tool
+  the inputs of the software into categories of choices. \emph{tsl} (testing specification language) is a tool
   that offers a good front-end for the category partitioning method with a formal descriptive language
-  to specify how the program works using categories and choices. In addition, TSL will generate tests
-  cases in an output file. However, it's weakness is that it will generate all possible permutations of
-  the categories and choices as test frames, which may not run in a feasible amount of time.
+  to specify those categories and choices. In addition, \emph{tsl} will generate test frames in an output file.
+  However, it's weakness is that it will generate all possible permutations of the categories of choices, which
+  may not run in a feasible amount of time.
   
 Combinatorial interaction testing addresses the problem of the brute force approach of running all
-  possible inputs by offering a method for analyzing and selecting a subset of test cases. The tool
-  we will use for this step will be 
-
-
-\eas{Here you can start that combinatorial interaction testing addresses this problem by finding test cases where only certain category choices appear together}
- Similarly, combinatorial interaction testing is useful for defining a subset of tests that satisfy a t-way pairwise interaction using a model and constraints file. \eas{Give three to four more sentence about how  CASA tool does it}\eas{ Then talk about its front end -- in fact its front-end is quite confusing that might introduce errors especially when expressing constraints. You might also state that in general an industry tester would not be able to use such tool --- how many would be able to express a constraint in a conjunctive normal form? Or decode the resulting output file.}
+  possible combinations of choices by offering a method for analyzing and selecting a subset of test cases
+  that cover combinations of choice interations. The tool we will use for this step will be \emph{casa},
+  which uses simulated annealing to select the subset of interactions between choices. Given a model file and
+  constraints file as input, \emph{casa} then outputs to a file a set of combinations of options that should
+  be selected together. The weakness for \emph{casa} is that the constraints are expressed in conjunctive
+  normal form, which is not how a typical user would think or write in. It is much easier and more human
+  readable if we could write in prepositional logic. So it can be difficult to write the constraints properly.
+  Additionally, the output is a set of numbers representing each choice. It's hard to map these numbers back
+  to actual choices. So some remapping is required back to the original inputs (e.g. \emph{tsl} "choices").
  
-\eas{Here you should talk how you propose to solve this problem. The goal of this project is to ...} These two methodologies and tools\eas{you never mentioned any tools -- mention them in their corresponding paragraphs} are separate pieces of software that require the user  to generate the input to both tools. This project takes on the task of combining\eas{the user-friendly input/output components of one and integrate them into powerful test selection algorithm of another} these two powerful methods and tools so that the user only needs to generate the category partition test specification, and an adequate coverage set of test frames is generated eliminating the need for the engineer to create the model or constraints for the combinatorial interaction testing.
-
+\eas{Here you should talk how you propose to solve this problem. The goal of this project is to ...}
+These two methodologies and tools are separate pieces of software that require the user to generate the input
+  to each tool separately. This project takes on the task of combining the user-friendly input/output components
+  of \emph{tsl} and integrates them into the powerful test selection algorithm of \emph{casa}. Upon completion of
+  the project, a user only needs to generate the category partition test specification input file, and an
+  easy to use adequate coverage set of test frames will be generated. This will eliminate the necessity for the
+  user to generate the complicated and bug prone inputs to the \emph{casa} tool and remapping of the output.
   
 \section{Background}
 This project builds on the work of two teams that have come up with solutions to
