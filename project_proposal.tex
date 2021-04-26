@@ -9,7 +9,13 @@ Testing Tool To Produce T-Way Adequate Test Frames}
 \usepackage{graphicx}
 \usepackage{xcolor}
 \graphicspath{ {./images/} }
-
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan
+}
 \newcommand{\eas}[1]{{\color{blue}\sf ({#1})}}
 \newcommand{\ag}[1]{{\color{red}\sf ({#1})}}
 \renewcommand{\topfraction}{.9}
@@ -80,7 +86,7 @@ The \emph{category-partition method} uses a formal test specification language t
 As part of the process to translate this feature into the formal language of \emph{tsl},
   we need to follow a specific format for our test specification file. It specifies
   \emph{categories}, \emph{choices}, \emph{properties}, and \emph{selectors} where 
-  \emph{selectors} are boolean expressions. The format of the file looks like this:
+  \emph{selectors} are boolean expressions. See figure \ref{fig:tsl_format}.
 \begin{figure}[htb]
 \centering
 \includegraphics[width=3in,keepaspectratio]{images/tsl_format.png}
@@ -191,7 +197,7 @@ As part of the simplification of the tool, only the category partition test spec
   
 In order to achieve this, a new struct was added to \emph{tsl/structs.h} called \emph{container} that
   keeps track of the list of non-single Choices as a vector of Choice struct
-  pointers.\eas{Make sure you explain in your background section what is Choice - by the way why is it capitalized?} This vector is used to lookup the choices and categories later for
+  pointers. This vector is used to lookup the choices and categories later for
   printing the test frames. In addition, a \emph{parent} pointer was added to
   the Choice struct so that the Category information can be referenced when
   performing the lookup into the Choice* vector.
@@ -218,7 +224,7 @@ The goal is to simplify the work of a user who needs to use these tools to gener
   frames whose number has been reduced in size to provide adequate testing of the system described
   in the input of the program that can be quickly actionable from the user to use.
   
-My project can be found at the following url: https://github.com/Panik-Kontrol/MastersProject.
+My project can be found at the following url \url{https://github.com/Panik-Kontrol/MastersProject}.
   The top level directory contains my \emph{.tex} files for this proposal as well as a place
   holder for the final paper (not started yet). It will also be the location where I store the
   slides I will present for the proposal next week. The \emph{src/} directory contains the source
