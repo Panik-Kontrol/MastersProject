@@ -71,7 +71,7 @@ test cases and then generates test case descriptions according to it specificati
   specifications is an iterative approach. Depending on the size of the software system to test, the 
   engineer may need to break the program up into smaller testable blocks. For 
   the purposes of this project, we will use a simple example of a browser's 
-  settings for how to treat tabs. See figure \ref{fig:tabs_example}.
+  settings for how to treat tabs. See Figure \ref{fig:tabs_example}.
 \begin{figure}[htb]
 \centering
 \includegraphics[width=2.3in,keepaspectratio]{images/tabs_example.png}
@@ -82,7 +82,7 @@ test cases and then generates test case descriptions according to it specificati
 As part of the process to translate this feature into the formal language of \emph{tsl},
   we need to follow a specific format for the test specification file. It specifies
   \emph{categories}, \emph{choices}, \emph{properties}, and \emph{selectors} where 
-  \emph{selectors} are boolean expressions. See figure \ref{fig:tsl_format}.
+  \emph{selectors} are boolean expressions. See Figure \ref{fig:tsl_format} for an example.
 \begin{figure}[htb]
 \centering
 \includegraphics[width=3in,keepaspectratio]{images/tsl_format.png}
@@ -91,14 +91,14 @@ As part of the process to translate this feature into the formal language of \em
 \end{figure}
 
 In our example, we need to choose \emph{categories} and \emph{choices} within those
-  \emph{categories}. For example, one \emph{category} could be 'Link', and the choices
-  associated with 'Link' are 'new window', 'new tab', and 'current tab' pulled from the
-  'Open links from other applications in:' portion of the settings. We complete this step for all
+  \emph{categories}. For example, one \emph{category} could be `Link', and the choices
+  associated with `Link' are `new window', `new tab', and `current tab' pulled from the
+  `Open links from other applications in:' portion of the settings. We complete this step for all
   the available selections in this browser's 'Tabs' options. Next, we assign some 
   \emph{properties}, which are useful for defining constraints that should be imposed on
   the valid \emph{choices} a program may accept. And then the \emph{selectors} are defined
   as prepositional logic statements that select the option that is associated with the 
-  \emph{property} that is referenced in the \emph{selector} statement. See figure \ref{fig:tsl_input_final}.
+  \emph{property} that is referenced in the \emph{selector} statement. See Figure \ref{fig:tsl_input_final} for an example.
 \begin{figure}[htb]
 \centering
 \includegraphics[width=4in,keepaspectratio]{images/tsl_input_final.png}
@@ -129,7 +129,7 @@ The \emph{casa} tool's \emph{.citmodel} input file has the following format. The
   specifies the strength of the T-way pairs to cover, which usually is limited to 2-way or 3-way interaction. The second line specifies the number
   of \emph{categories} we have broken the program into. And the third line specifies how
   many \emph{choices} within each category can be chosen. The enumeration starts from the first \emph{category} to
-  the last, e.g., figure \ref{fig:casa_citmodel_input}. 
+  the last, e.g., Figure~\ref{fig:casa_citmodel_input}. 
   
   Next, the \emph{.constraints}
   file contains the constraints written as a conjunction of disjunctions, i.e., CNF. The first line
@@ -141,11 +141,11 @@ Finally, let us consider the output format from the \emph{casa} program. The fir
   the number of combinations generated for the given \emph{.citmodel} and \emph{.constraints}
   input followed by that number of lines, each a different input combination. Each digit in
   the combination represents the \emph{choice} from the \emph{category} in order of their
-  defined input. For example, with an input of '2 3 4 5' in our \emph{.citmodel}, the first
-  entry of the output line could contain '0' or '1'. The second entry could contain '2', '3',
-  or '4'. The third entry would contain '5', '6', '7' or '8', etc. This output could be used
+  defined input. For example, with an input of `2 3 4 5' in our \emph{.citmodel}, the first
+  entry of the output line could contain `0' or `1'. The second entry could contain `2', `3',
+  or `4'. The third entry would contain `5', `6', `7' or `8', etc. This output could be used
   to generate test frames by associating each entry in the line with its corresponding
-  \emph{choice}. See figure \ref{fig:casa_output}. The \emph{casa} tool consists of 87 files
+  \emph{choice}. See Figure \ref{fig:casa_output}. The \emph{casa} tool consists of 87 files
   with 9,139 lines of code and is written in C++.
   
 \begin{figure}[htb]
@@ -158,7 +158,7 @@ Finally, let us consider the output format from the \emph{casa} program. The fir
 \begin{figure}[htb]
 \centering
 \includegraphics[width=1in,keepaspectratio]{images/casa_constraints.png}
-\caption{Constraints file for the 'Tabs' example with 2 rules. If option 3 is chosen, then choose 5 or 6. If option 4 is chosen, then choose 7 only.}
+\caption{Constraints file for the `Tabs' example with 2 rules. If option 3 is chosen, then choose 5 or 6. If option 4 is chosen, then choose 7 only.}
 \label{fig:casa_constraints}
 \end{figure}
 
@@ -189,20 +189,20 @@ As part of the simplification of the tool, only the category partition test spec
   at a later time as part of the proposed work. In order to create the \emph{.citmodel}, we need
   to be able to keep track of the parsed information from the specifications file.
   
-In order to achieve this, a new struct was added to \emph{tsl/structs.h} called \emph{container} that
-  keeps track of the list of non-single Choices as a vector of Choice struct
+In order to achieve this, a new struct was added to \emph{tsl/structs.h} called \texttt{container} that
+  keeps track of the list of non-single \texttt{Choices} as a vector of \texttt{Choice} struct
   pointers. This vector is used to look up the choices and categories later for
-  printing the test frames. In addition, a \emph{parent} pointer was added to
-  the Choice struct so that the Category information can be referenced when
-  performing the lookup into the Choice* vector.
+  printing the test frames. In addition, a \texttt{parent} pointer was added to
+  the \texttt{Choice }struct so that the \texttt{Category} information can be referenced when
+  performing the lookup into the \texttt{Choice*} vector.
   
 Rather than output directly all possible test frames, a new function called
-  \emph{make\_citmodel()} was written in \emph{tsl/output.c} to write a 
+  \texttt{make\_citmodel()} was written in \emph{tsl/output.c} to write a 
   \emph{.citmodel} file used as an input to \emph{casa}. The function
-  \emph{generator(Flag flags)} was also modified to call \emph{make\_citmodel()},
+\texttt{generator(Flag flags)} was also modified to call \texttt{make\_citmodel()},
   and then make a system call to casa passing in the \emph{.citmodel} file for
   the input. Then, another function created  called
-  \emph{process\_output\_file(string filename)} processes the file output by
+\texttt{process\_output\_file(string filename)} processes the file output by
   \emph{casa} to generate the test frame final output. Ideally there should be
   no file required, but this is a preliminary draft of the final solution
   and this will be addressed in the final version of the project.
@@ -227,14 +227,14 @@ The remaining step is to convert the logic formula from the \emph{properties} an
 My project can be found at the following url \url{https://github.com/Panik-Kontrol/MastersProject}.
   The top-level directory contains my \emph{.tex} files for this proposal as well as a place
   holder for the final paper (not started yet). It will also be the location where I store the
-  slides I will present for the proposal next week. The \emph{src/} directory contains the source
+  slides I will present for the proposal next week. The \texttt{src/} directory contains the source
   code for both the \emph{casa} tool and the \emph{tsl} tool that I have and will be modifying.
-  The \emph{images} directory contains all the figure images used in this proposal.
+  The \texttt{images} directory contains all the figure images used in this proposal.
   
   \subsection{Timeline}
   Here is my tentative timeline
   \begin{itemize}
-  \item May, 2021 -- Study Cvijovic's CNF tool and implement converter component.
+  \item May, 2021 -- Study Cvijovic's CNF conversion tool and implement converter component.
   \item June, 2021 -- Finish Master's Project description document and defend Master's Project
   \end{itemize}
 
