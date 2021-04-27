@@ -24,55 +24,51 @@ Testing Tool To Produce T-Way Adequate Test Frames}
 \begin{document}
 \maketitle
 \section{Introduction}
-Software is the beating heart of a lot of technology today, and defects in that software
-  can be costly. Some simply print funny characters to the terminal, while some can bring
-  your production to a halt for hours or even days costing thousands and even millions of
-  dollars. Or perhaps a security breach which exposes your intellectual property which
-  could kill your business altogether. That is why testing is such an important step in
-  the process of creating defect free software. Testing software can be a difficult task
-  depending on the complexity of the software itself, what kind of inputs it takes, and how
-  many different functions it can perform. And there are several different approaches in how
-  to do the actual testing: black-box, white-box, static analysis to name a few. We will be
-  focusing on black-box testing, and more specifically generating test cases that find the
-  greatest amount of defects with a realistically executable number of test cases.
+Software is the beating heart of almost every company, which makes defects in that software
+ to be potentially very costly. Some software defects results in prining funny characters to the terminal, while others can bring
+  company production to a halt for hours or even days, costing thousands and even millions of
+  dollars in losses. Another critical defects results in a security breach, which exposes company's intellectual property that
+  could be fatal to business altogether. That is why testing is such an important part in
+  the process of creating defect free software. Testing software is a difficult task, which
+  depends on the complexity of the software itself, what kind of inputs it takes, i.e., the input doamin, and how
+  many different functions it performs. Depending on software, testers can choose among different testing approaches
+  to implement the actual testing: black-box, white-box, model-based testing, to name a few. In this project, we   
+  focus on black-box testing, and more specifically on the test-case optimization: how to generate defect-revealing test cases with a realistically executable number of them.
   
 \section{Problem Statement and Proposed Solution}
 It is difficult to engineer a set of tests that adequately tests a particular piece of software
   in an acceptable amount of time. Category partitioning is a useful black-box testing method that
-  helps to test systematic design with test cases. It allows the user to divide
-  the inputs of the software into categories of choices. \emph{tsl} (testing specification language) is a tool
-  that offers a good front-end for the category partitioning method with a formal descriptive language
-  to specify those categories and choices. In addition, \emph{tsl} will generate test frames in an output file.
-  However, it's weakness is that it will generate all possible permutations of the categories of choices, which
-  may not run in a feasible amount of time.
+  helps systematically design test cases. It allows the user to divide
+   the software's input space into categories of choices. \emph{tsl} (testing specification language) is a tool
+  that offers a good front-end interface for the category partitioning method with a formal descriptive language
+  to specify categories and choices on the input domain partitions. In addition, \emph{tsl} generates readable test frames in an output file, where each test frame corresponds to a test case. However, its weakness is that it generates many frames because it computes all possible permutations of the categories of choices. This results in a large test suite, which may not run in a feasible amount of time.
   
-Combinatorial interaction testing addresses the problem of the brute force approach of running all
-  possible combinations of choices by offering a method for analyzing and selecting a subset of test cases
-  that cover combinations of choice interations. The tool we will use for this step will be \emph{casa},
-  which uses simulated annealing to select the subset of interactions between choices. Given a model file and
-  constraints file as input, \emph{casa} then outputs to a file a set of combinations of options that should
-  be selected together. The weakness for \emph{casa} is that the constraints are expressed in conjunctive
-  normal form, which is not how a typical user would think or write in. It is much easier and more human
-  readable if we could write in prepositional logic. So it can be difficult to write the constraints properly.
-  Additionally, the output is a set of numbers representing each choice. It's hard to map these numbers back
-  to actual choices. So some remapping is required back to the original inputs (e.g. \emph{tsl} "choices").
+Combinatorial interaction testing (CIT) addresses this problem of the brute force approach of exhaustive test case generation 
+by offering a method for analyzing and selecting a subset of test cases
+  that cover specific combinations of category choices. The tool we use for CIT is \emph{casa},
+  which uses a simulated annealing search to find the subset of test cases with desired interactions between choices. Given a model file and
+  constraints file as input, \emph{casa} then outputs to a file with a set of combinations of options, i.e., category choices, that should
+  be tested together. The weakness for \emph{casa} is that the constraints are expressed in the conjunctive
+  normal form, which is not how a typical user would define or express them. It is much easier and more human
+  readable if we could write constraint as a general formula in propositional logic. Thus, it can be challenging for users to write the constraints in \emph{casa}.  Additionally, the output is a set of numbers representing each choice. It's hard to map these numbers back
+  to actual choices. So some remapping is required back to the original inputs (e.g. \emph{tsl} ``choices'').
  
-These two methodologies and tools are separate pieces of software that require the user to generate the input
-  to each tool separately. This project takes on the task of combining the user-friendly input/output components
-  of \emph{tsl} and integrates them into the powerful test selection algorithm of \emph{casa}. Upon completion of
-  the project, a user only needs to generate the category partition test specification input file, and an
-  easy to use adequate coverage set of test frames will be generated. This will eliminate the necessity for the
-  user to generate the complicated and bug prone inputs to the \emph{casa} tool and remapping of the output.
+These two methodologies and tools are separate pieces of software that require the user to create the input files
+  to each tool separately.  {\bf The objective of this projects is to combine the user-friendly input/output components
+  of \emph{tsl} and integrates them into the powerful test case optimization algorithm of \emph{casa}}. Upon completion of
+  the project, we will produce a tool where a user only needs to generate the category partition test specification input file, and an
+  easy to use t-test adequate coverage set of test frames will be generated. This will eliminate the necessity for the
+  user to generate the complicated and bug prone inputs to the \emph{casa} tool and remapping of the output back into the \emph{tsl} frames.
   
 \section{Background}
-This project builds on the work of two teams that have come up with solutions to
-  two different problems. Here we will explain each of those solutions and the 
-  tools created to support them.
+This project builds on previous work that addresses to
+  two different problems: systematic test case generation and test case optimization. In this section we explain approaches for solving each problem and the tools implementing those solutions.
 
-The \emph{category-partition method} uses a formal test specification language to generate
-  test case descriptions. These test case descriptions would then be used to
-  create an executable software test. So how do you generate the formal test 
-  specifications? Depending on the size of the software system to test, the 
+\subsection{Category-partition Method}
+The \emph{category-partition method} uses a formal test specification language (TSL) to define
+test cases and then generates test case descriptions according to it specification. These test case descriptions are then used to
+  create an executable software test suite. As with any formal specification, writing the formal test 
+  specifications is an iterative approach. Depending on the size of the software system to test, the 
   engineer may need to break the program up into smaller testable blocks. For 
   the purposes of this project, we will use a simple example of a browser's 
   settings for how to treat tabs. See figure \ref{fig:tabs_example}.
@@ -84,7 +80,7 @@ The \emph{category-partition method} uses a formal test specification language t
 \end{figure}
 
 As part of the process to translate this feature into the formal language of \emph{tsl},
-  we need to follow a specific format for our test specification file. It specifies
+  we need to follow a specific format for the test specification file. It specifies
   \emph{categories}, \emph{choices}, \emph{properties}, and \emph{selectors} where 
   \emph{selectors} are boolean expressions. See figure \ref{fig:tsl_format}.
 \begin{figure}[htb]
@@ -94,11 +90,11 @@ As part of the process to translate this feature into the formal language of \em
 \label{fig:tsl_format}
 \end{figure}
 
-Back to our example, we need to choose \emph{categories} and \emph{choices} within those
+In our example, we need to choose \emph{categories} and \emph{choices} within those
   \emph{categories}. For example, one \emph{category} could be 'Link', and the choices
   associated with 'Link' are 'new window', 'new tab', and 'current tab' pulled from the
-  'Open links from other applications in:' portion of the settings. We do this for all
-  the available selections in this browser's 'Tabs' options. Next we assign some 
+  'Open links from other applications in:' portion of the settings. We complete this step for all
+  the available selections in this browser's 'Tabs' options. Next, we assign some 
   \emph{properties}, which are useful for defining constraints that should be imposed on
   the valid \emph{choices} a program may accept. And then the \emph{selectors} are defined
   as prepositional logic statements that select the option that is associated with the 
@@ -110,47 +106,45 @@ Back to our example, we need to choose \emph{categories} and \emph{choices} with
 \label{fig:tsl_input_final}
 \end{figure}
 
-After executing \emph{tsl} with this input file, we end up with 96 total test frames
-  for all possible combinations of our 'Tabs' example. This is a small example with very
+After \emph{tsl} processes this input file, it produces 96 total test frames
+  for all possible combinations of our 'Tabs' example, restricted by the set of constraints. This is a small example with very
   few choices. Another, more complex system such as an airplane cockpit with many switches
-  and inputs. How many possible combinations would there be to test that? Brute force is not
-  feasible to test this system completely, so we look for another way we can reduce the number
-  of test sets down to a feasible number. The \emph{tsl} tool itself consists of 12 files and
-  1,125 lines of code and is written in C.
+  and inputs can produces a large amount of possible combinations, which is not feasible to execute and hence to test this system completely at a certain level of details. Removing categories and or excluding some values might result in smaller but less powerful test suite. Thus we look for another way to reduce the number of test sets down to a feasible number, yet maintaining the the desired level of detail. The original \emph{tsl} tool is written in C and consists of 12 files and 1,125 lines of code.
 
-\emph{Combinatorial interaction testing} is a testing method that relies on the principle
-  that a large portion of faults can be detected with a subset of the total number of 
-  possible inputs. \emph{casa} is a tool that will find a \emph{t-way} pairwise covering 
-  array that satisfies all possible values for each input within it's pair in order to find
-  the minimal set of inputs to cover those faults using simulated annealing as it's algorithm.
-  The tool takes two files as input: one that specifies the \emph{t-way} interaction
-  level desired along with all possible inputs and one that describes constraints on those
-  inputs. The output is the subset of combinations that satisfy the selected \emph{t-way}
-  interaction level. This allows us to identify the subset of tests necessary to get adequate
-  testing coverage. The inputs must be manually generated by the user and the constraints
-  file uses conjunctive normal form, which can be difficult to translate from prepositional
-  logic that we have defined in our \emph{tsl} configuration file. In addition, the output
-  needs some manipulation to translate back to something useful for testing.
+\subsection{Combinatorial Interaction Testing}
+\emph{Combinatorial interaction testing} is a test case selection approach that relies on the principle
+  that a large portion of faults can be detected with a smaller subset of test cases that insure interaction
+  of different choices for different categories.  \emph{casa} is a tool that finds test cases with a \emph{t-way} covering 
+  combinations of choices. The tool uses the simulated annealing search algorithm in order to find
+  the minimal set of such test cases.
   
-The \emph{.citmodel} input file has the following format. The first line of the file
-  specifies the strength of the T-way pairs to find. The second line specifies the number
+  The tool takes two files as input: one that specifies the \emph{t-way} interaction
+  level desired along with all possible inputs and another that encodes constraints on those
+  inputs. The output is the subset of combinations that satisfy the selected \emph{t-way}
+  interaction level. This allows to identify the subset of tests necessary to get adequate
+  t-way testing coverage. In \emph{casa}, the options must be manually written by the user as well as the constraints
+  file, which accepts constraints in a conjunctive normal form (CNF). The user can find it difficult to translate from logical formula of \emph{tsl} to its CNF representation. In addition, the output needs some manipulation to translate it into a readable testing specification.
+  
+The \emph{casa}'s \emph{.citmodel} input file has the following format. The first line
+  specifies the strength of the T-way pairs to cover, which usually is limited to 2-way or 3-way interaction. The second line specifies the number
   of \emph{categories} we have broken the program into. And the third line specifies how
-  many \emph{choices} within the categories we have starting from the first \emph{category} to
-  the last. See figure \ref{fig:casa_citmodel_input}. Next we look at the \emph{.constraints}
-  file and the contraints are written as a conjunction of disjunctions. The first line in this
-  file denotes how many disjunctive clauses (constraints) will be defined for this model. Each
+  many \emph{choices} within each categories. The continues enumeration starts from the first \emph{category} to
+  the last, e.g.,  Figure \ref{fig:casa_citmodel_input}. 
+  
+  Next, the \emph{.constraints}
+  file contains the constraints written as a conjunction of disjunctions, i.e., CNF. The first line
+denotes how many disjunctive clauses (constraints) are defined for this model. Each
   conjunctive clause consists of a pair of lines, the first of which specifies how many terms
-  will be in the disjunctive clause. The second line of the pair is the disjunctive clause in
-  conjunctive normal form for each constraint. See figure \ref{fig:casa_constraints}.
+are in the disjunctive clause. The second line of the pair is the disjunctive clause itself. See Figure \ref{fig:casa_constraints} for demonsrations.
 
-Finally, we look at the output format from the \emph{casa} program. The first line contains
+Finally, let us consider the output format from the \emph{casa} program. The first line contains
   the number of combinations generated for the given \emph{.citmodel} and \emph{.constraints}
   input followed by that number of lines, each a different input combination. Each digit in
   the combination represents the \emph{choice} from the \emph{category} in order of their
   defined input. For example, with an input of '2 3 4 5' in our \emph{.citmodel}, the first
-  entry of the ouput line could contain '0' or '1'. The second entry could contain '2', '3',
+  entry of the output line could contain '0' or '1'. The second entry could contain '2', '3',
   or '4'. The third entry would contain '5', '6', '7' or '8', etc. This output could be used
-  to generate a test frame by associating each entry in the line with it's corresponding
+  to generate test frames by associating each entry in the line with it's corresponding
   \emph{choice}. See figure \ref{fig:casa_output}. The \emph{casa} tool consists of 87 files
   with 9,139 lines of code and is written in C++.
   
@@ -164,7 +158,7 @@ Finally, we look at the output format from the \emph{casa} program. The first li
 \begin{figure}[htb]
 \centering
 \includegraphics[width=1in,keepaspectratio]{images/casa_constraints.png}
-\caption{Constraints file for our 'Tabs' example with 2 rules. If option 3 is chosen, then choose 5 or 6. If option 4 is chosen, then choose 7.}
+\caption{Constraints file for the 'Tabs' example with 2 rules. If option 3 is chosen, then choose 5 or 6. If option 4 is chosen, then choose 7 only.}
 \label{fig:casa_constraints}
 \end{figure}
 
@@ -178,7 +172,7 @@ Finally, we look at the output format from the \emph{casa} program. The first li
 \section{Preliminary Work}
 Some preliminary work has been done on this project in order to determine the
   feasibility of the idea to combine the \emph{tsl} and \emph{casa} tools into 
-  a single, easy to use tool. A goal of the project is to simplify and reduce the
+  a single, easy to use tool that combines the \emph{tsl}'s front-end and \emph{casa}'s powerful search engine. A goal of the project is to simplify and reduce the
   effort a user needs to put in to use the new tool. Source code was acquired for
   both tools and some initial analysis of the code was done in order to understand
   how they work and where some work may be needed to combine them. As it
@@ -188,10 +182,10 @@ Some preliminary work has been done on this project in order to determine the
   with the g++ compiler.
 
 As part of the simplification of the tool, only the category partition test specifications
-  should need to be created by the user as a \emph{.tsl} file. The tool will do the rest to
+  should be created by the user as a \emph{.tsl} file. The tool will do the rest to
   generate the adequate coverage set of test frames. Since \emph{casa} takes as input a 
   \emph{.citmodel} file, this preliminary version of \emph{tsl} generates one based on the
-  specification file passed in. The generation of the \emph{.constraints} file will be created
+  specification file passed in. The support for generation of the \emph{.constraints} file will be added
   at a later time as part of the proposed work. In order to create the \emph{.citmodel}, we need
   to be able to keep track of the parsed information from the specifications file.
   
@@ -210,18 +204,17 @@ Rather than output directly all possible test frames, a new function called
   the input. Then, another function created  called
   \emph{process\_output\_file(string filename)} processes the file output by
   \emph{casa} to generate the test frame final output. Ideally there should be
-  no file io required, but this is a preliminary draft of the final solution
-  and will be addressed in the final version of the project.
+  no file I/( required, but this is a preliminary draft of the final solution
+  and this will be addressed in the final version of the project.
   
   \section{Proposed Remaining Work}
 The goal is to simplify the work of a user who needs to use these tools to generate test frames
-  for testing. Having a simple user interface and easy to understand input file is key. \emph{tsl's}
-  input is easy to configure, so we will keep this format. The next step will be to convert the
-  prepositional logic from the \emph{properties} and \emph{selectors} into CNF (conjunctive normal
-  form). There are several CNF converters available at GitHub, so I will utilize one of them. If
-  I cannot get one of these to work, I will write one into the \emph{tsl} tool to output the
-  \emph{.constraints} file. The final output from the combined tools should be a set of test
-  frames whose number has been reduced in size to provide adequate testing of the system described
+  for testing. Having a simple user interface and easy to understand input file is key. \emph{tsl}'s
+  input format is easy to configure and more user-friendly, so the new tool will inherit this format. Our preliminary work has demonstrated feasibility of \emph{tsl} to interact with \emph{casa}.
+  
+  The remaining step is to convert the logic formula from the \emph{properties} and \emph{selectors} into CNF accepted by \texttt{casa}. There are several CNF converters available at GitHub\eas{can you give examples -- at least those that I refered you to}, so our tool might utilize one of them. If
+this route will prove itself futile,  we will write our own using well know algorithms from converting a propositional formula into its CNF and add it to the \emph{tsl} tool to output the \emph{.constraints} file. The final output from the combined tools should be a set of test
+  frames whose number has been reduced in size to provide adequate t-way coverage testing of the system described
   in the input of the program that can be quickly actionable from the user to use.
   
 My project can be found at the following url \url{https://github.com/Panik-Kontrol/MastersProject}.
@@ -229,6 +222,15 @@ My project can be found at the following url \url{https://github.com/Panik-Kontr
   holder for the final paper (not started yet). It will also be the location where I store the
   slides I will present for the proposal next week. The \emph{src/} directory contains the source
   code for both the \emph{casa} tool and the \emph{tsl} tool that I have and will be modifying.
-  The \emph{images} directory contains all the figure images used in the writeups.
+  The \emph{images} directory contains all the figure images used in this proposal.
+  
+  \subsection{Timeline}
+  Here is my tentative timeline
+  \begin{itemize}
+  \item June, 2021 -- Explore CNF tools
+  \item July - August, 2021 - Implement a logical formula to CNF translator component.
+  \item September, 2021 -- Finish Master's Project description document.
+  \item October, 2022 -- Defend the Master's Project.
+  \end{itemize}
 
 \end{document}

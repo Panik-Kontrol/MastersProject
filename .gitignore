@@ -1,2 +1,6 @@
 *.o
 *.d
+/project_proposal.aux
+/project_proposal.log
+/project_proposal.out
+/project_proposal.synctex.gz
