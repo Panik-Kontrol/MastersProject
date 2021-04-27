@@ -189,7 +189,7 @@ As part of the simplification of the tool, only the category partition test spec
   at a later time as part of the proposed work. In order to create the \emph{.citmodel}, we need
   to be able to keep track of the parsed information from the specifications file.
   
-In order to achieve this, a new struct was added to \emph{tsl/structs.h} called \texttt{container} that
+In order to achieve this, a new struct was added to \texttt{tsl/structs.h} called \texttt{container} that
   keeps track of the list of non-single \texttt{Choices} as a vector of \texttt{Choice} struct
   pointers. This vector is used to look up the choices and categories later for
   printing the test frames. In addition, a \texttt{parent} pointer was added to
@@ -215,7 +215,7 @@ The goal is to simplify the work of a user who needs to use these tools to gener
   
 The remaining step is to convert the logic formula from the \emph{properties} and \emph{selectors}
   into CNF accepted by \emph{casa}. One converter in particular, Vojkan Cvijovic's CNF converter is
-  available at GitHub (\url{https://github.com/Vojkan-Cvijovic/CNF-Converter/tree/master/src/converter},
+  available at GitHub (\url{https://github.com/Vojkan-Cvijovic/CNF-Converter/tree/master/src/converter}),
   and it's written in C++ which matches the language for \emph{tsl} and
   \emph{casa}. If this tool does not serve the purpose, another CNF conversion tool will need to be
   found or a new one using well know algorithms for converting a propositional formula into its CNF
@@ -229,7 +229,7 @@ My project can be found at the following url \url{https://github.com/Panik-Kontr
   holder for the final paper (not started yet). It will also be the location where I store the
   slides I will present for the proposal next week. The \texttt{src/} directory contains the source
   code for both the \emph{casa} tool and the \emph{tsl} tool that I have and will be modifying.
-  The \texttt{images} directory contains all the figure images used in this proposal.
+  The \texttt{images/} directory contains all the figure images used in this proposal.
   
   \subsection{Timeline}
   Here is my tentative timeline
