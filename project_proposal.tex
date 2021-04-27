@@ -25,13 +25,13 @@ Testing Tool To Produce T-Way Adequate Test Frames}
 \maketitle
 \section{Introduction}
 Software is the beating heart of almost every company, which makes defects in that software
- to be potentially very costly. Some software defects results in prining funny characters to the terminal, while others can bring
+ to be potentially very costly. Some software defects result in printing funny characters to the terminal, while others can bring
   company production to a halt for hours or even days, costing thousands and even millions of
-  dollars in losses. Another critical defects results in a security breach, which exposes company's intellectual property that
+  dollars in losses. Another critical defect may result in a security breach, which exposes the company's intellectual property that
   could be fatal to business altogether. That is why testing is such an important part in
   the process of creating defect free software. Testing software is a difficult task, which
-  depends on the complexity of the software itself, what kind of inputs it takes, i.e., the input doamin, and how
-  many different functions it performs. Depending on software, testers can choose among different testing approaches
+  depends on the complexity of the software itself, what kind of inputs it takes, i.e., the input domain, and how
+  many functions it performs. Depending on software, testers can choose among different testing approaches
   to implement the actual testing: black-box, white-box, model-based testing, to name a few. In this project, we   
   focus on black-box testing, and more specifically on the test-case optimization: how to generate defect-revealing test cases with a realistically executable number of them.
   
@@ -54,7 +54,7 @@ by offering a method for analyzing and selecting a subset of test cases
   to actual choices. So some remapping is required back to the original inputs (e.g. \emph{tsl} ``choices'').
  
 These two methodologies and tools are separate pieces of software that require the user to create the input files
-  to each tool separately.  {\bf The objective of this projects is to combine the user-friendly input/output components
+  to each tool separately.  {\bf The objective of this project is to combine the user-friendly input/output components
   of \emph{tsl} and integrates them into the powerful test case optimization algorithm of \emph{casa}}. Upon completion of
   the project, we will produce a tool where a user only needs to generate the category partition test specification input file, and an
   easy to use t-test adequate coverage set of test frames will be generated. This will eliminate the necessity for the
@@ -109,7 +109,7 @@ In our example, we need to choose \emph{categories} and \emph{choices} within th
 After \emph{tsl} processes this input file, it produces 96 total test frames
   for all possible combinations of our 'Tabs' example, restricted by the set of constraints. This is a small example with very
   few choices. Another, more complex system such as an airplane cockpit with many switches
-  and inputs can produces a large amount of possible combinations, which is not feasible to execute and hence to test this system completely at a certain level of details. Removing categories and or excluding some values might result in smaller but less powerful test suite. Thus we look for another way to reduce the number of test sets down to a feasible number, yet maintaining the the desired level of detail. The original \emph{tsl} tool is written in C and consists of 12 files and 1,125 lines of code.
+  and inputs can produce a large amount of possible combinations, which is not feasible to execute and hence to test this system completely at a certain level of details. Removing categories and or excluding some values might result in smaller but less powerful test suite. Thus, we look for another way to reduce the number of test sets down to a feasible number, yet maintaining the desired level of detail. The original \emph{tsl} tool is written in C and consists of 12 files and 1,125 lines of code.
 
 \subsection{Combinatorial Interaction Testing}
 \emph{Combinatorial interaction testing} is a test case selection approach that relies on the principle
@@ -123,19 +123,19 @@ After \emph{tsl} processes this input file, it produces 96 total test frames
   inputs. The output is the subset of combinations that satisfy the selected \emph{t-way}
   interaction level. This allows to identify the subset of tests necessary to get adequate
   t-way testing coverage. In \emph{casa}, the options must be manually written by the user as well as the constraints
-  file, which accepts constraints in a conjunctive normal form (CNF). The user can find it difficult to translate from logical formula of \emph{tsl} to its CNF representation. In addition, the output needs some manipulation to translate it into a readable testing specification.
+  file, which accepts constraints in a conjunctive normal form (CNF). The user can find it difficult to translate from the logical formula of \emph{tsl} to its CNF representation. In addition, the output needs some manipulation to translate it into a readable testing specification.
   
-The \emph{casa}'s \emph{.citmodel} input file has the following format. The first line
+The \emph{casa} tool's \emph{.citmodel} input file has the following format. The first line
   specifies the strength of the T-way pairs to cover, which usually is limited to 2-way or 3-way interaction. The second line specifies the number
   of \emph{categories} we have broken the program into. And the third line specifies how
-  many \emph{choices} within each categories. The continues enumeration starts from the first \emph{category} to
-  the last, e.g.,  Figure \ref{fig:casa_citmodel_input}. 
+  many \emph{choices} within each category can be chosen. The enumeration starts from the first \emph{category} to
+  the last, e.g., figure \ref{fig:casa_citmodel_input}. 
   
   Next, the \emph{.constraints}
   file contains the constraints written as a conjunction of disjunctions, i.e., CNF. The first line
 denotes how many disjunctive clauses (constraints) are defined for this model. Each
   conjunctive clause consists of a pair of lines, the first of which specifies how many terms
-are in the disjunctive clause. The second line of the pair is the disjunctive clause itself. See Figure \ref{fig:casa_constraints} for demonsrations.
+are in the disjunctive clause. The second line of the pair is the disjunctive clause itself. See Figure \ref{fig:casa_constraints} for a demonstration.
 
 Finally, let us consider the output format from the \emph{casa} program. The first line contains
   the number of combinations generated for the given \emph{.citmodel} and \emph{.constraints}
@@ -144,7 +144,7 @@ Finally, let us consider the output format from the \emph{casa} program. The fir
   defined input. For example, with an input of '2 3 4 5' in our \emph{.citmodel}, the first
   entry of the output line could contain '0' or '1'. The second entry could contain '2', '3',
   or '4'. The third entry would contain '5', '6', '7' or '8', etc. This output could be used
-  to generate test frames by associating each entry in the line with it's corresponding
+  to generate test frames by associating each entry in the line with its corresponding
   \emph{choice}. See figure \ref{fig:casa_output}. The \emph{casa} tool consists of 87 files
   with 9,139 lines of code and is written in C++.
   
@@ -191,7 +191,7 @@ As part of the simplification of the tool, only the category partition test spec
   
 In order to achieve this, a new struct was added to \emph{tsl/structs.h} called \emph{container} that
   keeps track of the list of non-single Choices as a vector of Choice struct
-  pointers. This vector is used to lookup the choices and categories later for
+  pointers. This vector is used to look up the choices and categories later for
   printing the test frames. In addition, a \emph{parent} pointer was added to
   the Choice struct so that the Category information can be referenced when
   performing the lookup into the Choice* vector.
@@ -204,21 +204,28 @@ Rather than output directly all possible test frames, a new function called
   the input. Then, another function created  called
   \emph{process\_output\_file(string filename)} processes the file output by
   \emph{casa} to generate the test frame final output. Ideally there should be
-  no file I/( required, but this is a preliminary draft of the final solution
+  no file required, but this is a preliminary draft of the final solution
   and this will be addressed in the final version of the project.
   
   \section{Proposed Remaining Work}
 The goal is to simplify the work of a user who needs to use these tools to generate test frames
   for testing. Having a simple user interface and easy to understand input file is key. \emph{tsl}'s
-  input format is easy to configure and more user-friendly, so the new tool will inherit this format. Our preliminary work has demonstrated feasibility of \emph{tsl} to interact with \emph{casa}.
+  input format is easy to configure and more user-friendly, so the new tool will inherit this format.
+  Our preliminary work has demonstrated feasibility of \emph{tsl} to interact with \emph{casa}.
   
-  The remaining step is to convert the logic formula from the \emph{properties} and \emph{selectors} into CNF accepted by \texttt{casa}. There are several CNF converters available at GitHub\eas{can you give examples -- at least those that I refered you to}, so our tool might utilize one of them. If
-this route will prove itself futile,  we will write our own using well know algorithms from converting a propositional formula into its CNF and add it to the \emph{tsl} tool to output the \emph{.constraints} file. The final output from the combined tools should be a set of test
-  frames whose number has been reduced in size to provide adequate t-way coverage testing of the system described
-  in the input of the program that can be quickly actionable from the user to use.
+The remaining step is to convert the logic formula from the \emph{properties} and \emph{selectors}
+  into CNF accepted by \emph{casa}. One converter in particular, Vojkan Cvijovic's CNF converter is
+  available at GitHub (\url{https://github.com/Vojkan-Cvijovic/CNF-Converter/tree/master/src/converter},
+  and it's written in C++ which matches the language for \emph{tsl} and
+  \emph{casa}. If this tool does not serve the purpose, another CNF conversion tool will need to be
+  found or a new one using well know algorithms for converting a propositional formula into its CNF
+  will need to be coded in the \emph{tsl} tool to output the \emph{.constraints} file. The final
+  output from the combined tools should be a set of test frames whose number has been reduced in size
+  to provide adequate t-way coverage testing of the system described in the input of the program that
+  can be quickly actionable from the user to use.
   
 My project can be found at the following url \url{https://github.com/Panik-Kontrol/MastersProject}.
-  The top level directory contains my \emph{.tex} files for this proposal as well as a place
+  The top-level directory contains my \emph{.tex} files for this proposal as well as a place
   holder for the final paper (not started yet). It will also be the location where I store the
   slides I will present for the proposal next week. The \emph{src/} directory contains the source
   code for both the \emph{casa} tool and the \emph{tsl} tool that I have and will be modifying.
@@ -227,10 +234,8 @@ My project can be found at the following url \url{https://github.com/Panik-Kontr
   \subsection{Timeline}
   Here is my tentative timeline
   \begin{itemize}
-  \item June, 2021 -- Explore CNF tools
-  \item July - August, 2021 - Implement a logical formula to CNF translator component.
-  \item September, 2021 -- Finish Master's Project description document.
-  \item October, 2021 -- Defend the Master's Project.
+  \item May, 2021 -- Study Cvijovic's CNF tool and implement converter component.
+  \item June, 2021 -- Finish Master's Project description document and defend Master's Project
   \end{itemize}
 
 \end{document}
