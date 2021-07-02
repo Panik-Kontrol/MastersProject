@@ -1,0 +1,50 @@
+This toCNF program takes on the command line a boolean formula in postfix notation (e.g., qVr is qrV)
+and prints out the equivalent cnf in infix notation.
+The program is taken from this git repo:
+
+The connective symbols are as follows
+1.~for negation: !p (infix tsl) <=> p~ (postfix toCNF)
+2. V for OR: q || p (infix tsl) <=> qpV (postfix toCNF)
+3. ^ for AND: q && p (infix tsl) <=> qp^ (postfix toCNF)
+4. > for implication: q -> p (infix, if p then q in tsl) <=> qp> (postfix toCNF)
+
+A formula p -> (!q || r) is written as
+pq~rV>
+note there should be no spaces between input symbols
+
+A formula (q && !r) -> p is written as
+qr~^p>
+
+To compile:
+gcc -o toCNF day1.c day2.c day3.c parse_tree.c main_3.c stack.c
+
+To run
+./toCNF
+
+after it prints started program, enter the formula.
+toCNF re-print it gain and then pring the euqivalent CNF
+
+Examples:
+$ ./toCNF
+started program
+pq~rV>
+pq~rV>
+((~p)V((~q)Vr))%
+
+$ ./toCNF
+started program
+qr~^p>
+qr~^p>
+(((~q)Vr)Vp)
+
+the example below has the following infix form: 
+(p->q \/ p->r) /\ (q->p \/ r->p)
+
+$ ./toCNF
+started program
+pq>pr>Vqp>rp>V^
+pq>pr>Vqp>rp>V^
+((((~p)Vq)V((~p)Vr))^(((~q)Vp)V((~r)Vp)))
+
+To parse the output should not be that difficult - split by ^ then go over each disjunct and collect all variables,
+if it has ~in from of it then mark it as a negated literal.
