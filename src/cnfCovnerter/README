@@ -1,6 +1,7 @@
 This toCNF program takes on the command line a boolean formula in postfix notation (e.g., qVr is qrV)
 and prints out the equivalent cnf in infix notation.
 The program is taken from this git repo:
+https://github.com/asbadjate/CNF-Converter/tree/master/Assignment%202/Day%203/Day3_8thNov
 
 The connective symbols are as follows
 1.~for negation: !p (infix tsl) <=> p~ (postfix toCNF)
