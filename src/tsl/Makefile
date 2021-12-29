@@ -7,7 +7,7 @@ HDRS = defines.h structs.h maindefs.h
 EXE_FILE = $(BINDIR)/tsl
 LIBS =
 
-CC = g++
+CC = g++ -std=c++11
 
 default:
 	@echo 
